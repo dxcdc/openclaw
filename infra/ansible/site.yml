@@ -1,0 +1,89 @@
+---
+- name: Provisionar e Fazer Deploy do OpenClaw no bot.cdc.org.br
+  hosts: openclaw_servers
+  become: yes
+  vars:
+    domain_name: "bot.cdc.org.br"
+    app_dir: "/var/www/openclaw"
+    repo_url: "git@github-dxcdc:dxcdc/openclaw.git"
+
+  tasks:
+    - name: Atualizar pacotes do sistema
+      apt:
+        update_cache: yes
+        upgrade: dist
+      when: ansible_os_family == "Debian"
+
+    - name: Instalar dependências essenciais (Python, Nginx, PostgreSQL, Redis, Certbot)
+      apt:
+        name:
+          - python3
+          - python3-venv
+          - python3-pip
+          - nginx
+          - postgresql
+          - postgresql-contrib
+          - redis-server
+          - certbot
+          - python3-certbot-nginx
+          - git
+        state: present
+
+    - name: Garantir que o serviço Redis está ativo
+      systemd:
+        name: redis-server
+        state: started
+        enabled: yes
+
+    - name: Garantir que o serviço PostgreSQL está ativo
+      systemd:
+        name: postgresql
+        state: started
+        enabled: yes
+
+    - name: Criar banco de dados PostgreSQL para OpenClaw
+      become_user: postgres
+      postgresql_db:
+        name: openclaw_db
+        state: present
+      ignore_errors: yes
+
+    - name: Criar usuário no PostgreSQL
+      become_user: postgres
+      postgresql_user:
+        db: openclaw_db
+        name: openclaw_user
+        password: "ChangeMeInProduction123!"
+        priv: "ALL"
+        state: present
+      ignore_errors: yes
+
+    - name: Copiar template do Nginx
+      template:
+        src: roles/nginx/templates/openclaw.conf.j2
+        dest: /etc/nginx/sites-available/openclaw.conf
+      notify: Reload Nginx
+
+    - name: Habilitar site no Nginx
+      file:
+        src: /etc/nginx/sites-available/openclaw.conf
+        dest: /etc/nginx/sites-enabled/openclaw.conf
+        state: link
+
+    - name: Copiar serviços Systemd
+      template:
+        src: "roles/systemd/templates/{{ item }}.j2"
+        dest: "/etc/systemd/system/{{ item }}"
+      loop:
+        - openclaw-web.service
+        - openclaw-celery.service
+
+    - name: Recarregar daemon do Systemd
+      systemd:
+        daemon_reload: yes
+
+  handlers:
+    - name: Reload Nginx
+      systemd:
+        name: nginx
+        state: reloaded
