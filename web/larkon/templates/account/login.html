@@ -8,7 +8,7 @@
 <!-- ========================================== -->
 <!-- 1. TOPBAR COMPACTO E ORGANIZADO            -->
 <!-- ========================================== -->
-<header class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm sticky-top py-2 px-3 px-lg-4">
+<header class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm sticky-top py-2.5 px-3 px-lg-4">
   <div class="container-fluid d-flex align-items-center justify-content-between">
     
     <!-- BRAND: LOGO CDC + MASCOTE OPENCLAW -->
@@ -120,10 +120,10 @@
         </div>
       </div>
 
-      <div class="d-flex flex-wrap align-items-center gap-2 text-muted fs-12">
-        <span class="badge bg-light text-dark border px-2 py-1">⚡ Automação Idempotente</span>
-        <span class="badge bg-light text-dark border px-2 py-1">🗄️ PostgreSQL Audit Logs</span>
-        <span class="badge bg-light text-dark border px-2 py-1">🔒 SSL HTTPS</span>
+      <div class="d-flex flex-wrap align-items-center gap-2 text-muted fs-12 mb-2">
+        <span class="badge bg-white text-dark border px-2.5 py-1.5 shadow-sm">⚡ Automação Idempotente</span>
+        <span class="badge bg-white text-dark border px-2.5 py-1.5 shadow-sm">🗄️ PostgreSQL Audit Logs</span>
+        <span class="badge bg-white text-dark border px-2.5 py-1.5 shadow-sm">🔒 SSL HTTPS</span>
       </div>
 
     </div>
@@ -168,19 +168,19 @@
 </main>
 
 <!-- ========================================== -->
-<!-- 3. FOOTER LIMPO E COMPACTO                -->
+<!-- 3. FOOTER CORRIGIDO (SEM POSITION ABSOLUTE)-->
 <!-- ========================================== -->
-<footer class="footer bg-white border-top py-2.5 mt-auto">
-  <div class="container-fluid px-3 px-lg-4">
-    <div class="row align-items-center">
+<footer class="bg-white border-top py-3 mt-auto shadow-sm" style="position: relative !important; z-index: 10;">
+  <div class="container-fluid px-3 px-lg-5">
+    <div class="row align-items-center g-2">
       <div class="col-md-6 text-center text-md-start">
-        <small class="text-muted fs-12">
-          <script>document.write(new Date().getFullYear())</script> &copy; <strong>OpenClaw CDC</strong> — Todos os direitos reservados.
+        <small class="text-muted fs-13">
+          <script>document.write(new Date().getFullYear())</script> &copy; <strong>OpenClaw CDC</strong> — Governança & IA. Todos os direitos reservados.
         </small>
       </div>
-      <div class="col-md-6 text-center text-md-end mt-1 mt-md-0">
-        <small class="text-muted fs-12 me-3">Subdomínio: <code>bot.cdc.org.br</code></small>
-        <small class="text-muted fs-12">Status: <span class="text-success fw-semibold">🟢 Operacional</span></small>
+      <div class="col-md-6 text-center text-md-end">
+        <span class="text-muted fs-12 me-3">Subdomínio: <strong class="text-primary">bot.cdc.org.br</strong></span>
+        <span class="text-muted fs-12">Status: <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1">🟢 Operacional</span></span>
       </div>
     </div>
   </div>
