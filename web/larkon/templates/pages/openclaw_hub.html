@@ -1,0 +1,268 @@
+{% extends 'layout-vertical.html' %}
+{% load static i18n %}
+
+{% block title %}Central do Agente Autônomo OpenClaw{% endblock %}
+
+{% block page_content %}
+<!-- HEADER DA PÁGINA ESPECIAL DO OPENCLAW -->
+<div class="row mb-4">
+  <div class="col-12">
+    <div class="card border-0 shadow-sm bg-white rounded-4 p-4">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+        
+        <div class="d-flex align-items-center gap-3">
+          <div class="p-2.5 bg-danger-subtle rounded-circle d-flex align-items-center justify-content-center">
+            <img src="{% static '/images/openclaw-icon-md.png' %}" alt="OpenClaw Mascot" style="height: 52px; width: 52px;" class="img-fluid">
+          </div>
+          <div>
+            <div class="d-flex align-items-center gap-2 mb-1">
+              <span class="badge bg-danger text-white fw-bold px-2.5 py-1 rounded-pill fs-11">HUB EXCLUSIVO</span>
+              <span class="badge bg-success-subtle text-success border border-success-subtle px-2.5 py-1 rounded-pill fs-11">
+                🟢 Gateway Online ({{ gateway_url }})
+              </span>
+            </div>
+            <h2 class="h3 fw-extrabold text-dark mb-0">Central de Operações OpenClaw</h2>
+          </div>
+        </div>
+
+        <div class="d-flex align-items-center gap-2">
+          <a href="/admin/agents/agent/add/" class="btn btn-primary fw-semibold px-3 shadow-sm">
+            + Cadastrar Agente
+          </a>
+          <a href="/admin/agents/webhookintegration/add/" class="btn btn-outline-dark fw-semibold px-3">
+            + Novo Webhook
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONSOLE DE COMANDOS INTERATIVO DO AGENTE -->
+<div class="row mb-4">
+  <div class="col-12">
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+      <div class="card-header bg-dark text-white py-3 d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center gap-2">
+          <span class="fs-18">💻</span>
+          <h5 class="card-title fw-bold mb-0 text-white">Console de Disparo do Agente</h5>
+        </div>
+        <span class="badge bg-secondary text-white fs-12">Celery + Redis Worker Active</span>
+      </div>
+      <div class="card-body p-4 bg-light-subtle">
+        
+        <form id="agent-trigger-form" onsubmit="handleAgentTrigger(event)">
+          <div class="row g-3">
+            <div class="col-md-4">
+              <label class="form-label fw-bold text-dark fs-13">Selecione o Agente Destino:</label>
+              <select class="form-select border-secondary-subtle fw-semibold" id="agent-select" required>
+                {% for agent in agents %}
+                  <option value="{{ agent.id }}">{{ agent.name }} ({{ agent.slug }})</option>
+                {% empty %}
+                  <option value="">Nenhum agente cadastrado no momento</option>
+                {% endfor %}
+              </select>
+            </div>
+            
+            <div class="col-md-8">
+              <label class="form-label fw-bold text-dark fs-13">Payload de Entrada (JSON / Instrução):</label>
+              <div class="input-group">
+                <input type="text" class="form-control border-secondary-subtle" id="agent-payload" placeholder='{"action": "run_audit", "target": "system"}' value='{"instruction": "Executar rotina autônoma de verificação"}'>
+                <button class="btn btn-danger fw-bold px-4" type="submit">
+                  Disparar Agente 🚀
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <div id="execution-response" class="mt-3 d-none">
+          <div class="alert alert-success border-0 shadow-sm mb-0">
+            <strong>✅ Resposta do Agente:</strong> <span id="response-text"></span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ABAS DE NAVEGAÇÃO INTERNA DO OPENCLAW -->
+<div class="row">
+  
+  <!-- TABELA DE AGENTES CADASTRADOS -->
+  <div class="col-lg-6 mb-4">
+    <div class="card border-0 shadow-sm rounded-4 h-100">
+      <div class="card-header bg-white py-3 border-bottom d-flex align-items-center justify-content-between">
+        <h5 class="card-title fw-bold text-dark mb-0">🤖 Agentes & Receitas Ativas</h5>
+        <span class="badge bg-primary-subtle text-primary">{{ agents.count }} Registrados</span>
+      </div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="bg-light">
+              <tr>
+                <th>Nome / Slug</th>
+                <th>Comando</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for agent in agents %}
+              <tr>
+                <td>
+                  <strong class="text-dark d-block">{{ agent.name }}</strong>
+                  <small class="text-muted"><code>{{ agent.slug }}</code></small>
+                </td>
+                <td><code>{{ agent.command }}</code></td>
+                <td><span class="badge bg-success-subtle text-success">Ativo</span></td>
+              </tr>
+              {% empty %}
+              <tr>
+                <td colspan="3" class="text-center py-4 text-muted">
+                  Nenhum agente cadastrado. Clique em <strong>+ Cadastrar Agente</strong> para criar o primeiro!
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABELA DE INTEGRACÕES DE WEBHOOK -->
+  <div class="col-lg-6 mb-4">
+    <div class="card border-0 shadow-sm rounded-4 h-100">
+      <div class="card-header bg-white py-3 border-bottom d-flex align-items-center justify-content-between">
+        <h5 class="card-title fw-bold text-dark mb-0">🔌 Webhooks & Gatilhos de API</h5>
+        <span class="badge bg-warning-subtle text-warning">{{ webhooks.count }} Ativos</span>
+      </div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="bg-light">
+              <tr>
+                <th>Integração</th>
+                <th>Agente Destino</th>
+                <th>Token Secret</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for wh in webhooks %}
+              <tr>
+                <td class="fw-bold text-dark">{{ wh.name }}</td>
+                <td>{{ wh.agent.name }}</td>
+                <td><code>{{ wh.token|truncatechars:16 }}</code></td>
+              </tr>
+              {% empty %}
+              <tr>
+                <td colspan="3" class="text-center py-4 text-muted">
+                  Nenhum webhook tokenizado ativo.
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HISTÓRICO DE EXECUÇÕES -->
+  <div class="col-12">
+    <div class="card border-0 shadow-sm rounded-4">
+      <div class="card-header bg-white py-3 border-bottom d-flex align-items-center justify-content-between">
+        <h5 class="card-title fw-bold text-dark mb-0">📜 Logs e Histórico de Execução</h5>
+        <a href="/admin/agents/executionlog/" class="btn btn-sm btn-light fw-semibold">
+          Abrir Todos no Admin
+        </a>
+      </div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="bg-light">
+              <tr>
+                <th>Status</th>
+                <th>Agente</th>
+                <th>Origem</th>
+                <th>Iniciado em</th>
+                <th>Finalizado em</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for log in recent_executions %}
+              <tr>
+                <td>
+                  {% if log.status == 'SUCCESS' %}
+                    <span class="badge bg-success-subtle text-success border border-success-subtle">SUCESSO</span>
+                  {% elif log.status == 'RUNNING' %}
+                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle">EM EXECUÇÃO</span>
+                  {% elif log.status == 'FAILED' %}
+                    <span class="badge bg-danger-subtle text-danger border border-danger-subtle">FALHA</span>
+                  {% else %}
+                    <span class="badge bg-warning-subtle text-warning border border-warning-subtle">PENDENTE</span>
+                  {% endif %}
+                </td>
+                <td class="fw-bold text-dark">{{ log.agent.name }}</td>
+                <td>{{ log.triggered_by.email|default:"Webhook Externo" }}</td>
+                <td>{{ log.started_at|date:"d/m/Y H:i:s" }}</td>
+                <td>{{ log.finished_at|date:"d/m/Y H:i:s"|default:"-" }}</td>
+              </tr>
+              {% empty %}
+              <tr>
+                <td colspan="5" class="text-center py-4 text-muted">
+                  Nenhuma execução registrada. Dispare um agente acima para gerar logs!
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock page_content %}
+
+{% block extra_javascript %}
+<script>
+  function handleAgentTrigger(event) {
+    event.preventDefault();
+    const agentId = document.getElementById('agent-select').value;
+    const payloadText = document.getElementById('agent-payload').value;
+    
+    if (!agentId) {
+      alert('Por favor, selecione ou cadastre um agente primeiro.');
+      return;
+    }
+
+    let payloadJson = {};
+    try {
+      payloadJson = JSON.parse(payloadText);
+    } catch(e) {
+      payloadJson = { raw: payloadText };
+    }
+
+    fetch(`/api/v1/agents/${agentId}/execute/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': '{{ csrf_token }}'
+      },
+      body: JSON.stringify({ payload: payloadJson })
+    })
+    .then(response => response.json())
+    .then(data => {
+      document.getElementById('execution-response').classList.remove('d-none');
+      document.getElementById('response-text').innerText = `${data.message} (ID da Execução: ${data.execution_id})`;
+      setTimeout(() => { location.reload(); }, 2000);
+    })
+    .catch(err => {
+      alert('Erro ao disparar agente: ' + err);
+    });
+  }
+</script>
+{% endblock %}

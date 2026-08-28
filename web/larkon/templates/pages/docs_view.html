@@ -1,0 +1,39 @@
+{% extends 'layout-vertical.html' %}
+{% load static i18n %}
+
+{% block title %}Governança & diretrizes de Documentação{% endblock %}
+
+{% block page_content %}
+<div class="row mb-4">
+  <div class="col-12">
+    <div class="card border-0 shadow-sm rounded-4 p-4">
+      <div class="d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center gap-3">
+          <div class="avatar-md bg-primary-subtle text-primary rounded-3 d-flex align-items-center justify-content-center fs-24">
+            📜
+          </div>
+          <div>
+            <h3 class="fw-bold text-dark mb-0">Diretrizes de Documentação & Governança</h3>
+            <p class="text-muted fs-14 mb-0">Regras editoriais, automação idempotente, Git Graph e registros de Decisão de Arquitetura (ADRs)</p>
+          </div>
+        </div>
+        <a href="/admin/" class="btn btn-outline-dark fw-semibold">
+          ⚙️ Admin
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card border-0 shadow-sm rounded-4">
+      <div class="card-body p-4 p-lg-5">
+        <div class="markdown-content">
+          <pre class="bg-light p-4 rounded-3 border fs-14 text-dark font-monospace lh-base" style="white-space: pre-wrap; word-wrap: break-word;">{{ doc_content }}</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock page_content %}

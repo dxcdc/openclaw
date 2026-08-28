@@ -1,0 +1,128 @@
+{% extends 'layout-vertical.html' %}
+{% load static i18n %}
+
+{% block title %}Boas-Vindas ao OpenClaw CDC{% endblock %}
+
+{% block page_content %}
+<!-- SEÇÃO DE BOAS-VINDAS LIMPA -->
+<div class="row mb-4">
+  <div class="col-12">
+    <div class="card border-0 shadow-sm bg-gradient bg-primary text-white rounded-4 overflow-hidden">
+      <div class="card-body p-4 p-lg-5">
+        <div class="row align-items-center">
+          <div class="col-lg-8">
+            <span class="badge bg-white text-primary fw-bold px-3 py-1.5 rounded-pill fs-12 mb-3">
+              🟢 Sessão Ativa • {{ user_email }}
+            </span>
+            <h1 class="display-6 fw-extrabold text-white mb-2">
+              👋 Bem-vindo ao OpenClaw CDC!
+            </h1>
+            <p class="fs-16 text-white-50 mb-0 lh-base">
+              Você está autenticado na plataforma do <strong>Primeiro Agente Autônomo de IA</strong> do Centro de Desenvolvimento e Conhecimento. Selecione o ambiente que deseja acessar abaixo:
+            </p>
+          </div>
+          <div class="col-lg-4 text-center text-lg-end mt-4 mt-lg-0">
+            <img src="{% static '/images/openclaw-icon-md.png' %}" alt="OpenClaw Mascot" style="height: 96px; width: 96px;" class="img-fluid bg-white rounded-circle p-2 shadow-lg">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LAUNCHER CARDS: SELEÇÃO DE AMBIENTE -->
+<div class="row g-4 mb-4">
+  
+  <!-- CARD 1: CENTRAL ESPECIAL DO OPENCLAW -->
+  <div class="col-md-6 col-lg-4">
+    <div class="card border-0 shadow-sm rounded-4 h-100 card-hover transition-all">
+      <div class="card-body p-4 d-flex flex-column">
+        <div class="d-flex align-items-center gap-3 mb-3">
+          <div class="avatar-md bg-danger-subtle text-danger rounded-3 d-flex align-items-center justify-content-center fs-24">
+            🤖
+          </div>
+          <div>
+            <h5 class="fw-extrabold text-dark mb-0 fs-17">Central OpenClaw</h5>
+            <span class="badge bg-danger-subtle text-danger fs-11">Página Especial</span>
+          </div>
+        </div>
+        <p class="fs-14 text-muted flex-grow-1 mb-4">
+          Acesse o hub exclusivo do robô de IA: console de comandos, status do Gateway, tarefas assíncronas e histórico de execuções.
+        </p>
+        <a href="{% url 'pages:openclaw_hub' %}" class="btn btn-danger btn-lg fw-semibold w-100 shadow-sm">
+          Abrir Central OpenClaw 🚀
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 2: GOVERNANÇA & DOCUMENTAÇÃO -->
+  <div class="col-md-6 col-lg-4">
+    <div class="card border-0 shadow-sm rounded-4 h-100 card-hover transition-all">
+      <div class="card-body p-4 d-flex flex-column">
+        <div class="d-flex align-items-center gap-3 mb-3">
+          <div class="avatar-md bg-primary-subtle text-primary rounded-3 d-flex align-items-center justify-content-center fs-24">
+            📜
+          </div>
+          <div>
+            <h5 class="fw-extrabold text-dark mb-0 fs-17">Governança & Docs</h5>
+            <span class="badge bg-primary-subtle text-primary fs-11">Normas & ADRs</span>
+          </div>
+        </div>
+        <p class="fs-14 text-muted flex-grow-1 mb-4">
+          Consulte as normas operacionais, tom de voz híbrido, política de backup 3-2-1 e o registro de Decisões de Arquitetura (ADRs).
+        </p>
+        <a href="{% url 'pages:docs_view' %}" class="btn btn-outline-primary btn-lg fw-semibold w-100">
+          Ver Diretrizes 📖
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 3: ADMINISTRAÇÃO & USUÁRIOS (RBAC) -->
+  <div class="col-md-6 col-lg-4">
+    <div class="card border-0 shadow-sm rounded-4 h-100 card-hover transition-all">
+      <div class="card-body p-4 d-flex flex-column">
+        <div class="d-flex align-items-center gap-3 mb-3">
+          <div class="avatar-md bg-success-subtle text-success rounded-3 d-flex align-items-center justify-content-center fs-24">
+            ⚙️
+          </div>
+          <div>
+            <h5 class="fw-extrabold text-dark mb-0 fs-17">Painel Admin (RBAC)</h5>
+            <span class="badge bg-success-subtle text-success fs-11">Gestão & Segurança</span>
+          </div>
+        </div>
+        <p class="fs-14 text-muted flex-grow-1 mb-4">
+          Gerencie contas de usuários, grupos de acesso, tokens de API e configurações gerais do servidor Django.
+        </p>
+        <a href="/admin/" class="btn btn-outline-dark btn-lg fw-semibold w-100">
+          Acessar Admin 🔐
+        </a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- RESUMO RÁPIDO DO STATUS -->
+<div class="row">
+  <div class="col-12">
+    <div class="p-3.5 bg-white rounded-3 border shadow-sm d-flex flex-wrap align-items-center justify-content-between gap-3">
+      <div class="d-flex align-items-center gap-3">
+        <span class="fs-20">🟢</span>
+        <div>
+          <span class="fw-bold text-dark fs-14">Status da Instância CDC:</span>
+          <span class="text-muted fs-14 ms-1"><code>bot.cdc.org.br</code> • Redis & Celery Operacionais</span>
+        </div>
+      </div>
+      <div class="d-flex align-items-center gap-3 fs-13 text-muted">
+        <span>🤖 Agentes: <strong>{{ total_agents }}</strong></span>
+        <span>•</span>
+        <span>⚡ Execuções: <strong>{{ total_executions }}</strong></span>
+        <span>•</span>
+        <span>🔌 Webhooks: <strong>{{ total_webhooks }}</strong></span>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock page_content %}

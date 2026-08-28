@@ -22,93 +22,46 @@
   <div class="scrollbar" data-simplebar>
     <ul class="navbar-nav" id="navbar-nav">
 
-      <!-- SEÇÃO 1: AGENTE AUTÔNOMO OPENCLAW -->
-      <li class="menu-title">🤖 Agente Autônomo</li>
+      <!-- SEÇÃO UNIFICADA E LIMPA DO SISTEMA -->
+      <li class="menu-title">Navegação Principal</li>
 
+      <!-- 1. BOAS VINDAS -->
       <li class="nav-item">
         <a class="nav-link" href="/">
           <span class="nav-icon">
-            <iconify-icon icon="solar:widget-5-bold-duotone"></iconify-icon>
+            <iconify-icon icon="solar:home-2-bold-duotone"></iconify-icon>
           </span>
-          <span class="nav-text"> Painel Principal </span>
+          <span class="nav-text"> 👋 Boas-Vindas </span>
         </a>
       </li>
 
+      <!-- 2. PÁGINA ESPECIAL OPENCLAW -->
       <li class="nav-item">
-        <a class="nav-link" href="/admin/agents/agent/">
+        <a class="nav-link text-danger fw-bold" href="{% url 'pages:openclaw_hub' %}">
           <span class="nav-icon">
-            <iconify-icon icon="solar:cpu-bold-duotone"></iconify-icon>
+            <iconify-icon icon="solar:cpu-bold-duotone" class="text-danger"></iconify-icon>
           </span>
-          <span class="nav-text"> Agentes & Receitas </span>
+          <span class="nav-text"> 🤖 Central OpenClaw </span>
         </a>
       </li>
 
+      <!-- 3. GOVERNANÇA & DOCUMENTAÇÃO -->
       <li class="nav-item">
-        <a class="nav-link" href="/admin/agents/executionlog/">
+        <a class="nav-link" href="{% url 'pages:docs_view' %}">
           <span class="nav-icon">
-            <iconify-icon icon="solar:history-bold-duotone"></iconify-icon>
+            <iconify-icon icon="solar:document-text-bold-duotone"></iconify-icon>
           </span>
-          <span class="nav-text"> Logs de Execução </span>
+          <span class="nav-text"> 📜 Governança & Docs </span>
         </a>
       </li>
 
-      <li class="nav-item">
-        <a class="nav-link" href="/admin/agents/webhookintegration/">
-          <span class="nav-icon">
-            <iconify-icon icon="solar:plug-circle-bold-duotone"></iconify-icon>
-          </span>
-          <span class="nav-text"> Webhooks & APIs </span>
-        </a>
-      </li>
-
-      <!-- SEÇÃO 2: GOVERNANÇA & INFRAESTRUTURA -->
-      <li class="menu-title">📖 Governança & Infra</li>
-
-      <li class="nav-item">
-        <a class="nav-link" href="/admin/agents/agent/add/">
-          <span class="nav-icon">
-            <iconify-icon icon="solar:add-circle-bold-duotone"></iconify-icon>
-          </span>
-          <span class="nav-text"> Criar Novo Agente </span>
-        </a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link" href="https://bot.cdc.org.br/" target="_blank">
-          <span class="nav-icon">
-            <iconify-icon icon="solar:server-bold-duotone"></iconify-icon>
-          </span>
-          <span class="nav-text"> Instância bot.cdc.org.br </span>
-        </a>
-      </li>
-
-      <!-- SEÇÃO 3: SEGURANÇA & SISTEMA -->
-      <li class="menu-title">🔐 Segurança & Acesso</li>
-
-      <li class="nav-item">
-        <a class="nav-link" href="/admin/users/user/">
-          <span class="nav-icon">
-            <iconify-icon icon="solar:users-group-two-rounded-bold-duotone"></iconify-icon>
-          </span>
-          <span class="nav-text"> Usuários & RBAC </span>
-        </a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link" href="/admin/authtoken/tokenproxy/">
-          <span class="nav-icon">
-            <iconify-icon icon="solar:key-bold-duotone"></iconify-icon>
-          </span>
-          <span class="nav-text"> Tokens de API </span>
-        </a>
-      </li>
-
+      <!-- 4. PAINEL ADMIN DJANGO (RBAC) -->
       <li class="nav-item">
         <a class="nav-link" href="/admin/">
           <span class="nav-icon">
             <iconify-icon icon="solar:settings-bold-duotone"></iconify-icon>
           </span>
-          <span class="nav-text"> Django Admin </span>
+          <span class="nav-text"> ⚙️ Administração (RBAC) </span>
         </a>
       </li>
 
