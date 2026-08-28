@@ -1,99 +1,111 @@
 {% extends 'base.html' %}
 {% load static i18n crispy_forms_tags %}
 {% block html_attribute %}class="h-100"{% endblock html_attribute %}
-{% block title %}OpenClaw — Plataforma de Governança & IA CDC{% endblock %}
+{% block title %}OpenClaw — O Primeiro Agente Autônomo em IA{% endblock %}
 {% block body_attribute %}class="h-100 bg-light-subtle"{% endblock body_attribute %}
 
 {% block content %}
-<div class="container-fluid min-vh-100 d-flex flex-column justify-content-center py-4">
-  <div class="row align-items-center justify-content-center g-4">
+<div class="container-fluid min-vh-100 d-flex flex-column justify-content-center py-5">
+  <div class="row align-items-center justify-content-center g-5">
     
-    <!-- LADO ESQUERDO: APRESENTAÇÃO DA FERRAMENTA (LANDING PAGE) -->
-    <div class="col-lg-7 col-xl-6 px-4 px-lg-5">
+    <!-- LADO ESQUERDO: LANDING PAGE EXPLICATIVA DO AGENTE AUTÔNOMO -->
+    <div class="col-lg-7 col-xl-7 px-4 px-lg-5">
+      
+      <!-- HEADER & BADGE -->
       <div class="mb-4 d-flex align-items-center gap-3">
-        <img src="{% static '/images/logo-cdc.png' %}" alt="Logo CDC" style="height: 52px; width: auto;" class="rounded-3 shadow-sm">
+        <img src="{% static '/images/logo-cdc.png' %}" alt="Logo CDC" style="height: 56px; width: auto;" class="rounded-3 shadow-sm">
         <div>
-          <span class="badge bg-primary-subtle text-primary fw-semibold px-2.5 py-1 rounded-pill">Versão Corporativa 2.0</span>
-          <h1 class="h3 fw-extrabold mb-0 text-dark">OpenClaw CDC</h1>
+          <span class="badge bg-primary text-white fw-bold px-3 py-1.5 rounded-pill fs-12 uppercase tracking-wide">
+            🤖 Primeiro Agente Autônomo de IA
+          </span>
+          <h1 class="h3 fw-extrabold mb-0 text-dark mt-1">OpenClaw CDC</h1>
         </div>
       </div>
 
-      <h2 class="display-6 fw-bold text-dark mb-3">
-        Governança, Receitas de IA e Automação Infraestrutura
+      <!-- TÍTULO HERO -->
+      <h2 class="display-6 fw-extrabold text-dark mb-3 lh-sm">
+        O Primeiro Agente Autônomo em IA para Governança & Infraestrutura
       </h2>
-      <p class="fs-16 text-muted mb-4 lead">
-        O <strong>OpenClaw</strong> é a central unificada do CDC para orquestração de receitas, execução assíncrona de agentes de inteligência artificial e controle seguro de acessos.
-      </p>
 
-      <!-- RECURSOS E PARA QUE SERVE -->
+      <!-- INTRODUÇÃO PARA QUEM NÃO CONHECE -->
+      <div class="p-3.5 bg-white rounded-3 border-start border-4 border-primary shadow-sm mb-4">
+        <h5 class="fw-bold text-dark mb-1">💡 O que é o OpenClaw?</h5>
+        <p class="fs-15 text-muted mb-0 lh-base">
+          Diferente de chatbots tradicionais que apenas respondem perguntas, o <strong>OpenClaw</strong> é um <strong>Agente Autônomo Inteligente</strong>. Ele escuta eventos em tempo real (webhooks), analisa demandas complexas, executa tarefas de infraestrutura e orquestra receitas operacionais sem intervenção manual contínua.
+        </p>
+      </div>
+
+      <!-- PARA QUE SERVE (PILATES DA FERRAMENTA) -->
+      <h5 class="fw-bold text-dark mb-3">🔥 Principais Capacidades & Para que serve:</h5>
+
       <div class="row g-3 mb-4">
+        
         <div class="col-sm-6">
           <div class="p-3 bg-white rounded-3 border border-light shadow-sm h-100">
             <div class="d-flex align-items-center mb-2">
-              <div class="avatar-sm bg-primary-subtle text-primary rounded-circle d-flex align-items-center justify-content-center me-3 fs-20">
-                🤖
+              <div class="avatar-sm bg-primary-subtle text-primary rounded-circle d-flex align-items-center justify-content-center me-2.5 fs-18">
+                🧠
               </div>
-              <h5 class="fs-15 fw-bold mb-0 text-dark">Agentes & Receitas IA</h5>
+              <h6 class="fs-15 fw-bold mb-0 text-dark">Execução de Receitas de IA</h6>
             </div>
-            <p class="fs-13 text-muted mb-0">Execução assíncrona de prompts mestres e agentes inteligentes via Celery + Redis.</p>
+            <p class="fs-13 text-muted mb-0">Roda prompts mestres, scrapers e pipelines autônomos com suporte a Celery + Redis em segundo plano.</p>
           </div>
         </div>
 
         <div class="col-sm-6">
           <div class="p-3 bg-white rounded-3 border border-light shadow-sm h-100">
             <div class="d-flex align-items-center mb-2">
-              <div class="avatar-sm bg-success-subtle text-success rounded-circle d-flex align-items-center justify-content-center me-3 fs-20">
+              <div class="avatar-sm bg-success-subtle text-success rounded-circle d-flex align-items-center justify-content-center me-2.5 fs-18">
                 🛡️
               </div>
-              <h5 class="fs-15 fw-bold mb-0 text-dark">Segurança & RBAC</h5>
+              <h6 class="fs-15 fw-bold mb-0 text-dark">Governança & Controle RBAC</h6>
             </div>
-            <p class="fs-13 text-muted mb-0">Autenticação por e-mail, permissões granulares por grupo e isolamento de segredos.</p>
+            <p class="fs-13 text-muted mb-0">Restringe e audita quem pode acionar quais automações, garantindo segurança corporativa por padrão.</p>
           </div>
         </div>
 
         <div class="col-sm-6">
           <div class="p-3 bg-white rounded-3 border border-light shadow-sm h-100">
             <div class="d-flex align-items-center mb-2">
-              <div class="avatar-sm bg-warning-subtle text-warning rounded-circle d-flex align-items-center justify-content-center me-3 fs-20">
+              <div class="avatar-sm bg-warning-subtle text-warning rounded-circle d-flex align-items-center justify-content-center me-2.5 fs-18">
                 🔌
               </div>
-              <h5 class="fs-15 fw-bold mb-0 text-dark">APIs & Webhooks</h5>
+              <h6 class="fs-15 fw-bold mb-0 text-dark">Gatilhos via Webhooks</h6>
             </div>
-            <p class="fs-13 text-muted mb-0">Integração nativa com Mattermost, WhatsApp, Telegram e sistemas internos.</p>
+            <p class="fs-13 text-muted mb-0">Conecta-se a sistemas externos (Mattermost, WhatsApp, Telegram) via tokens de API tokenizados.</p>
           </div>
         </div>
 
         <div class="col-sm-6">
           <div class="p-3 bg-white rounded-3 border border-light shadow-sm h-100">
             <div class="d-flex align-items-center mb-2">
-              <div class="avatar-sm bg-info-subtle text-info rounded-circle d-flex align-items-center justify-content-center me-3 fs-20">
+              <div class="avatar-sm bg-info-subtle text-info rounded-circle d-flex align-items-center justify-content-center me-2.5 fs-18">
                 ⚙️
               </div>
-              <h5 class="fs-15 fw-bold mb-0 text-dark">Terraform & Ansible</h5>
+              <h6 class="fs-15 fw-bold mb-0 text-dark">IaC (Terraform + Ansible)</h6>
             </div>
-            <p class="fs-13 text-muted mb-0">Infraestrutura como Código com deploy automatizado em <code>bot.cdc.org.br</code>.</p>
+            <p class="fs-13 text-muted mb-0">Deploy e provisionamento reproduzível de ambientes e serviços para <code>bot.cdc.org.br</code>.</p>
           </div>
         </div>
+
       </div>
 
-      <div class="d-flex align-items-center gap-3 text-muted fs-13">
-        <span>✅ Idempotência de Tarefas</span>
-        <span>•</span>
-        <span>✅ logs & Auditoria PostgreSQL</span>
-        <span>•</span>
-        <span>✅ Certificado SSL HTTPS</span>
+      <div class="d-flex flex-wrap align-items-center gap-3 text-muted fs-13">
+        <span class="badge bg-light text-dark border px-2.5 py-1">⚡ Automação Idempotente</span>
+        <span class="badge bg-light text-dark border px-2.5 py-1">🗄️ PostgreSQL Audit Logs</span>
+        <span class="badge bg-light text-dark border px-2.5 py-1">🔒 SSL/HTTPS Ativo</span>
       </div>
     </div>
 
-    <!-- LADO DIREITO: CARD DE LOGIN INTEGRADO -->
+    <!-- LADO DIREITO: BOX DE LOGIN -->
     <div class="col-md-8 col-lg-5 col-xl-4 px-3">
       <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
         <div class="card-body p-4 p-md-5">
           
           <div class="text-center mb-4">
-            <img src="{% static '/images/logo-cdc.png' %}" alt="Logo CDC" height="48" class="mb-3">
-            <h3 class="fw-bold text-dark mb-1">Acessar a Plataforma</h3>
-            <p class="text-muted fs-14">Insira seu e-mail corporativo e senha</p>
+            <img src="{% static '/images/logo-cdc.png' %}" alt="Logo CDC" height="52" class="mb-3">
+            <h3 class="fw-bold text-dark mb-1">Painel do Agente</h3>
+            <p class="text-muted fs-14">Acesse com suas credenciais autorizadas</p>
           </div>
 
           <form class="authentication-form" method="POST" action="{% url 'account_login' %}">
@@ -112,8 +124,8 @@
 
           <div class="mt-4 pt-3 border-top text-center">
             <small class="text-muted fs-12">
-              Dúvidas ou suporte de infraestrutura? <br>
-              Consulte os guias em <code>docs/ajuda_infra.md</code>.
+              Plataforma mantida sob as normas da <br>
+              <strong>Diretriz de Documentação & Governança CDC</strong>.
             </small>
           </div>
 
@@ -127,7 +139,6 @@
 
 {% block extra_javascript %}
   <script>
-    // Preenche credenciais padrÃ£o de desenvolvimento
     if (document.getElementById('id_login')) {
       document.getElementById('id_login').value = "admin@cdc.org.br";
     }
