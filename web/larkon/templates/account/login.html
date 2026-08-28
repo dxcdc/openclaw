@@ -2,46 +2,106 @@
 {% load static i18n crispy_forms_tags %}
 {% block html_attribute %}class="h-100"{% endblock html_attribute %}
 {% block title %}OpenClaw — O Primeiro Agente Autônomo em IA{% endblock %}
-{% block body_attribute %}class="h-100 bg-light-subtle"{% endblock body_attribute %}
+{% block body_attribute %}class="min-vh-100 bg-light-subtle d-flex flex-column"{% endblock body_attribute %}
 
 {% block content %}
-<div class="container-fluid min-vh-100 d-flex flex-column justify-content-center py-5">
-  <div class="row align-items-center justify-content-center g-5">
+<!-- ========================================== -->
+<!-- 1. TOPBAR DE NAVEGAÇÃO DA LANDING PAGE    -->
+<!-- ========================================== -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm sticky-top py-2.5 px-3 px-lg-5">
+  <div class="container-fluid">
+    
+    <!-- LOGO CDC + MASCOTE OPENCLAW TRANSPARENTE -->
+    <a class="navbar-brand d-flex align-items-center gap-2.5" href="/">
+      <img src="{% static '/images/logo-cdc.png' %}" alt="Logo CDC" height="38" class="rounded-2">
+      <div class="vr h-25 mx-1 d-none d-sm-block"></div>
+      <img src="{% static '/images/openclaw-icon.png' %}" alt="OpenClaw Mascot" height="36" class="img-fluid" style="filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.15));">
+      <span class="fw-bold fs-18 text-dark tracking-tight">OpenClaw <span class="badge bg-danger-subtle text-danger fs-11 align-middle ms-1">AI Agent</span></span>
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#landingNavbar" aria-controls="landingNavbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- MENU DE NAVEGAÇÃO -->
+    <div class="collapse navbar-collapse" id="landingNavbar">
+      <ul class="navbar-nav mx-auto mb-2 mb-lg-0 fw-medium fs-14">
+        <li class="nav-item">
+          <a class="nav-link text-dark px-3" href="#sobre">🤖 Sobre o Agente</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark px-3" href="#governanca">🛡️ Governança & RBAC</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark px-3" href="#webhooks">🔌 APIs & Webhooks</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark px-3" href="#infra">⚙️ Infraestrutura (IaC)</a>
+        </li>
+      </ul>
+
+      <!-- ÁREA DIREITA DO TOPBAR -->
+      <div class="d-flex align-items-center gap-3">
+        <span class="badge bg-success-subtle text-success border border-success-subtle px-2.5 py-1.5 rounded-pill fs-12 d-none d-sm-inline-flex align-items-center gap-1.5">
+          <span class="spinner-grow spinner-grow-sm text-success" role="status" style="width: 8px; height: 8px;"></span>
+          Agente Online
+        </span>
+        <a href="#login-box" class="btn btn-primary btn-sm fw-semibold px-3 shadow-sm">
+          Acessar Painel 🚀
+        </a>
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+<!-- ========================================== -->
+<!-- 2. CONTEÚDO PRINCIPAL DA LANDING PAGE      -->
+<!-- ========================================== -->
+<div class="flex-grow-1 container-fluid py-4 py-lg-5 px-3 px-lg-5">
+  <div class="row align-items-center justify-content-center g-4 g-lg-5">
     
     <!-- LADO ESQUERDO: LANDING PAGE EXPLICATIVA DO AGENTE AUTÔNOMO -->
-    <div class="col-lg-7 col-xl-7 px-4 px-lg-5">
+    <div class="col-lg-7 col-xl-7">
       
-      <!-- HEADER & BADGE -->
-      <div class="mb-4 d-flex align-items-center gap-3">
-        <img src="{% static '/images/logo-cdc.png' %}" alt="Logo CDC" style="height: 56px; width: auto;" class="rounded-3 shadow-sm">
+      <!-- HERO COM O MASCOTE EM DESTAQUE -->
+      <div class="d-flex align-items-center gap-3 mb-3">
+        <div class="p-2 bg-white rounded-circle shadow-sm border border-light d-inline-flex align-items-center justify-content-center">
+          <img src="{% static '/images/openclaw-icon.png' %}" alt="Mascote OpenClaw" height="64" width="64" class="img-fluid" style="filter: drop-shadow(0px 4px 8px rgba(220, 53, 69, 0.25)); transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+        </div>
         <div>
-          <span class="badge bg-primary text-white fw-bold px-3 py-1.5 rounded-pill fs-12 uppercase tracking-wide">
-            🤖 Primeiro Agente Autônomo de IA
+          <span class="badge bg-primary text-white fw-bold px-3 py-1 rounded-pill fs-12 uppercase tracking-wide">
+            Primeiro Agente Autônomo de IA do CDC
           </span>
-          <h1 class="h3 fw-extrabold mb-0 text-dark mt-1">OpenClaw CDC</h1>
+          <h1 class="h2 fw-extrabold text-dark mb-0 mt-1">OpenClaw Autonomous Agent</h1>
         </div>
       </div>
 
       <!-- TÍTULO HERO -->
-      <h2 class="display-6 fw-extrabold text-dark mb-3 lh-sm">
+      <h2 class="display-6 fw-extrabold text-dark mb-3 lh-sm" id="sobre">
         O Primeiro Agente Autônomo em IA para Governança & Infraestrutura
       </h2>
 
       <!-- INTRODUÇÃO PARA QUEM NÃO CONHECE -->
-      <div class="p-3.5 bg-white rounded-3 border-start border-4 border-primary shadow-sm mb-4">
-        <h5 class="fw-bold text-dark mb-1">💡 O que é o OpenClaw?</h5>
-        <p class="fs-15 text-muted mb-0 lh-base">
-          Diferente de chatbots tradicionais que apenas respondem perguntas, o <strong>OpenClaw</strong> é um <strong>Agente Autônomo Inteligente</strong>. Ele escuta eventos em tempo real (webhooks), analisa demandas complexas, executa tarefas de infraestrutura e orquestra receitas operacionais sem intervenção manual contínua.
-        </p>
+      <div class="p-4 bg-white rounded-4 border-start border-4 border-danger shadow-sm mb-4">
+        <div class="d-flex align-items-start gap-3">
+          <img src="{% static '/images/openclaw-icon.png' %}" alt="OpenClaw" height="42" class="d-none d-sm-block mt-1">
+          <div>
+            <h5 class="fw-bold text-dark mb-1">💡 O que é o OpenClaw?</h5>
+            <p class="fs-15 text-muted mb-0 lh-base">
+              Diferente de chatbots tradicionais que apenas respondem perguntas, o <strong>OpenClaw</strong> é um <strong>Agente Autônomo Inteligente</strong>. Ele escuta eventos em tempo real (webhooks), analisa demandas complexas, executa tarefas de infraestrutura e orquestra receitas operacionais de forma idempotente sem intervenção manual contínua.
+            </p>
+          </div>
+        </div>
       </div>
 
       <!-- PARA QUE SERVE (PILATES DA FERRAMENTA) -->
-      <h5 class="fw-bold text-dark mb-3">🔥 Principais Capacidades & Para que serve:</h5>
+      <h5 class="fw-bold text-dark mb-3">🔥 Capacidades & Recursos da Plataforma:</h5>
 
       <div class="row g-3 mb-4">
         
-        <div class="col-sm-6">
-          <div class="p-3 bg-white rounded-3 border border-light shadow-sm h-100">
+        <div class="col-sm-6" id="governanca">
+          <div class="p-3.5 bg-white rounded-3 border border-light shadow-sm h-100">
             <div class="d-flex align-items-center mb-2">
               <div class="avatar-sm bg-primary-subtle text-primary rounded-circle d-flex align-items-center justify-content-center me-2.5 fs-18">
                 🧠
@@ -53,7 +113,7 @@
         </div>
 
         <div class="col-sm-6">
-          <div class="p-3 bg-white rounded-3 border border-light shadow-sm h-100">
+          <div class="p-3.5 bg-white rounded-3 border border-light shadow-sm h-100">
             <div class="d-flex align-items-center mb-2">
               <div class="avatar-sm bg-success-subtle text-success rounded-circle d-flex align-items-center justify-content-center me-2.5 fs-18">
                 🛡️
@@ -64,8 +124,8 @@
           </div>
         </div>
 
-        <div class="col-sm-6">
-          <div class="p-3 bg-white rounded-3 border border-light shadow-sm h-100">
+        <div class="col-sm-6" id="webhooks">
+          <div class="p-3.5 bg-white rounded-3 border border-light shadow-sm h-100">
             <div class="d-flex align-items-center mb-2">
               <div class="avatar-sm bg-warning-subtle text-warning rounded-circle d-flex align-items-center justify-content-center me-2.5 fs-18">
                 🔌
@@ -76,8 +136,8 @@
           </div>
         </div>
 
-        <div class="col-sm-6">
-          <div class="p-3 bg-white rounded-3 border border-light shadow-sm h-100">
+        <div class="col-sm-6" id="infra">
+          <div class="p-3.5 bg-white rounded-3 border border-light shadow-sm h-100">
             <div class="d-flex align-items-center mb-2">
               <div class="avatar-sm bg-info-subtle text-info rounded-circle d-flex align-items-center justify-content-center me-2.5 fs-18">
                 ⚙️
@@ -90,20 +150,22 @@
 
       </div>
 
-      <div class="d-flex flex-wrap align-items-center gap-3 text-muted fs-13">
-        <span class="badge bg-light text-dark border px-2.5 py-1">⚡ Automação Idempotente</span>
-        <span class="badge bg-light text-dark border px-2.5 py-1">🗄️ PostgreSQL Audit Logs</span>
-        <span class="badge bg-light text-dark border px-2.5 py-1">🔒 SSL/HTTPS Ativo</span>
+      <div class="d-flex flex-wrap align-items-center gap-2.5 text-muted fs-13">
+        <span class="badge bg-light text-dark border px-2.5 py-1.5">⚡ Automação Idempotente</span>
+        <span class="badge bg-light text-dark border px-2.5 py-1.5">🗄️ PostgreSQL Audit Logs</span>
+        <span class="badge bg-light text-dark border px-2.5 py-1.5">🔒 SSL/HTTPS Ativo</span>
       </div>
     </div>
 
     <!-- LADO DIREITO: BOX DE LOGIN -->
-    <div class="col-md-8 col-lg-5 col-xl-4 px-3">
+    <div class="col-md-8 col-lg-5 col-xl-5 px-3" id="login-box">
       <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
         <div class="card-body p-4 p-md-5">
           
           <div class="text-center mb-4">
-            <img src="{% static '/images/logo-cdc.png' %}" alt="Logo CDC" height="52" class="mb-3">
+            <div class="d-inline-flex p-2 bg-light rounded-circle mb-2">
+              <img src="{% static '/images/openclaw-icon.png' %}" alt="OpenClaw Icon" height="54" class="img-fluid" style="filter: drop-shadow(0px 3px 6px rgba(0,0,0,0.12));">
+            </div>
             <h3 class="fw-bold text-dark mb-1">Painel do Agente</h3>
             <p class="text-muted fs-14">Acesse com suas credenciais autorizadas</p>
           </div>
@@ -135,6 +197,25 @@
 
   </div>
 </div>
+
+<!-- ========================================== -->
+<!-- 3. FOOTER DA LANDING PAGE                 -->
+<!-- ========================================== -->
+<footer class="footer bg-white border-top py-3 mt-auto">
+  <div class="container-fluid px-3 px-lg-5">
+    <div class="row align-items-center">
+      <div class="col-md-6 text-center text-md-start">
+        <small class="text-muted">
+          <script>document.write(new Date().getFullYear())</script> &copy; <strong>OpenClaw CDC</strong> — Todos os direitos reservados.
+        </small>
+      </div>
+      <div class="col-md-6 text-center text-md-end mt-2 mt-md-0">
+        <small class="text-muted me-3">Subdomínio: <code>bot.cdc.org.br</code></small>
+        <small class="text-muted">Status: <span class="text-success fw-semibold">🟢 Operacional</span></small>
+      </div>
+    </div>
+  </div>
+</footer>
 {% endblock content %}
 
 {% block extra_javascript %}
