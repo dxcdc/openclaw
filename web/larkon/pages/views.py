@@ -40,6 +40,16 @@ def openclaw_hub_view(request):
 
 
 @login_required
+def openclaw_chat_view(request):
+    """Página de Chat Direto do Agente OpenClaw (session=agent:main:main)."""
+    chat_url = "http://127.0.0.1:18789/chat?session=agent%3Amain%3Amain&token=cdc2026token"
+    context = {
+        "chat_url": chat_url,
+    }
+    return render(request, "pages/openclaw_chat.html", context)
+
+
+@login_required
 def docs_view(request):
     """Página de Governança & Diretrizes de Documentação."""
     doc_path = os.path.join(settings.BASE_DIR.parent, "docs", "diretrizes_documentacao.md")
